@@ -28,9 +28,9 @@ export const GitHubMocks = [
       }
       const path = decodeURIComponent(params.path).trim();
 
-      console.log(`mock process1 ${process.env.VITE_GITHUB_REPOSITORY}`);
+      console.log(`mock process1 ${process.env.GITHUB_REPOSITORY}`);
       if (
-        `${owner}/${repo}` !== process.env.VITE_GITHUB_REPOSITORY ||
+        `${owner}/${repo}` !== process.env.GITHUB_REPOSITORY ||
         !path.startsWith("content")
       ) {
         throw new Error(
@@ -94,11 +94,11 @@ export const GitHubMocks = [
       }
       const sha = decodeURIComponent(params.sha).trim();
 
-      console.log(`mock process2 ${process.env.VITE_GITHUB_REPOSITORY}`);
+      console.log(`mock process2 ${process.env.GITHUB_REPOSITORY}`);
       console.log("mock process sha is");
       console.log(sha);
 
-      if (`${owner}/${repo}` !== process.env.VITE_GITHUB_REPOSITORY) {
+      if (`${owner}/${repo}` !== process.env.GITHUB_REPOSITORY) {
         throw new Error(
           `Trying to fetch resource for unmockable resource: ${owner}/${repo}`
         );
@@ -140,15 +140,15 @@ export const GitHubMocks = [
       console.log("Decoded Path:", decodedPath);
 
       console.log(
-        `mock process 3 VITE_GITHUB_REPOSITORY: ${process.env.VITE_GITHUB_REPOSITORY}`
+        `mock process 3 GITHUB_REPOSITORY: ${process.env.GITHUB_REPOSITORY}`
       );
 
-      if (!process.env.VITE_GITHUB_REPOSITORY) {
-        throw new Error("VITE_GITHUB_REPOSITORY is not defined");
+      if (!process.env.GITHUB_REPOSITORY) {
+        throw new Error("GITHUB_REPOSITORY is not defined");
       }
 
       if (
-        `${owner}/${repo}` !== process.env.VITE_GITHUB_REPOSITORY ||
+        `${owner}/${repo}` !== process.env.GITHUB_REPOSITORY ||
         !decodedPath.startsWith("content")
       ) {
         throw new Error(

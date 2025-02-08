@@ -11,7 +11,7 @@ function getGHOwner() {
 
 function getGHRepository() {
   // server side file must use nodejs env aka process.env
-  return process.env.VITE_GITHUB_REPOSITORY?.split("/")[1];
+  return process.env.GITHUB_REPOSITORY?.split("/")[1];
 }
 
 const MyOctokit = Octokit.plugin(throttling);
