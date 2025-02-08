@@ -11,12 +11,16 @@ const SHA = process.env.COMMIT_SHA;
 
 async function getCommitInfo() {
   try {
-    console.log(process.env.VITE_GITHUB_REPOSITORY);
+    console.log(process.env.GITHUB_REPOSITORY);
     console.log("sha is below");
     console.log(SHA);
-    console.log("-=====-")
+    console.log("-=====-");
+
+    console.log(
+      "아래 GITHUB_REPOSITORY는 docker에서 --build-arg에 자동으로 github actions에 의해 지정된다."
+    );
     const response = await fetch(
-      `https://api.github.com/repos/${process.env.VITE_GITHUB_REPOSITORY}/commits/${SHA}`
+      `https://api.github.com/repos/${process.env.GITHUB_REPOSITORY}/commits/${SHA}`
     );
     const data = await response.json();
     console.log(data);

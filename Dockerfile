@@ -25,7 +25,7 @@ ADD package.json package-lock.json ./
 RUN npm prune --production
 
 # Build the app
-FROM base as build
+FROM base AS build
 
 ARG COMMIT_SHA
 ENV COMMIT_SHA=$COMMIT_SHA
