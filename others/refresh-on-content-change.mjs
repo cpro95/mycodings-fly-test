@@ -1,8 +1,8 @@
 import chokidar from "chokidar";
 import path from "path";
 import fs from "fs";
-import { postJSON } from "./utils.mjs";
-import * as https from "https";
+import { postJSONasHttp } from "./utils.mjs";
+import https from "https";
 
 const watchPath = path.resolve(process.cwd(), "content");
 const refreshPath = path.resolve(process.cwd(), "app", "refresh.ignore.js");
@@ -16,7 +16,7 @@ watcher.on("ready", () => {
     );
     console.log("🛠 content changed", relativeChangePath);
 
-    postJSON({
+    postJSONasHttp({
       https,
       postData: {
         paths: [relativeChangePath],

@@ -15,6 +15,12 @@ export const action = async ({ request }: Route.ActionArgs) => {
     ? "http://localhost:5173"
     : `https://${import.meta.env.VITE_FLY_APP_NAME}.fly.dev`;
 
+  console.log("=================");
+  console.log("=================");
+  console.log(baseUrl);
+  console.log("=================");
+  console.log("=================");
+
   const response = await fetch(
     `${baseUrl}/_content/update-content?${queryParams}`,
     {

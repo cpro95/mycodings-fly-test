@@ -1,5 +1,6 @@
 import { execSync } from "child_process";
-import * as https from "https";
+import https from "https";
+import http from "http";
 
 export async function fetchJSON({ url }) {
   return new Promise((resolve, reject) => {
@@ -51,10 +52,64 @@ export async function postJSON({
       },
       ...overrideOptions,
     };
+    console.log(options);
     try {
       const req = https.request(options, (res) => {
         let data = "";
+        console.log("===========");
+        res.on("data", (chunk) => {
+          data += chunk;
+        });
+        res.on("end", () => {
+          try {
+            resolve(JSON.parse(data));
+          } catch (err) {
+            console.error("Error!", err.message);
+            reject(data);
+          }
+        });
+        res.on("error", (err) => {
+          console.error("Error!", err.message);
+          reject(err);
+        });
+      });
+      req.write(postDataString);
+      req.end();
+    } catch (e) {
+      console.error("Error!", e.message);
+      reject(e);
+    }
+  });
+}
 
+export async function postJSONasHttp({
+  postData,
+  overrideOptions = {},
+  overrideHeaders = {},
+}) {
+  return new Promise((resolve, reject) => {
+    const postDataString = JSON.stringify(postData);
+    const searchParams = new URLSearchParams([
+      ["_data", "routes/_content/refresh-content"],
+    ]);
+    const options = {
+      hostname: `${process.env.FLY_APP_NAME}.fly.dev`,
+      port: 443,
+      path: `/_content/refresh-content?${searchParams}`,
+      method: "POST",
+      headers: {
+        auth: process.env.REFRESH_TOKEN,
+        "content-type": "application/json",
+        "content-length": Buffer.byteLength(postDataString),
+        ...overrideHeaders,
+      },
+      ...overrideOptions,
+    };
+    console.log(options);
+    try {
+      const req = http.request(options, (res) => {
+        let data = "";
+        console.log("===========");
         res.on("data", (chunk) => {
           data += chunk;
         });
