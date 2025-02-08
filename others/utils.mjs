@@ -1,3 +1,6 @@
+import { execSync } from "child_process";
+import http from "http";
+
 export async function fetchJSON({ url }) {
   return new Promise((resolve, reject) => {
     const req = http.request(url, { method: "GET" }, (res) => {
