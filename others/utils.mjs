@@ -1,5 +1,5 @@
 import { execSync } from "child_process";
-import * as https from 'https';
+import * as https from "https";
 
 export async function fetchJSON({ url }) {
   return new Promise((resolve, reject) => {
@@ -33,53 +33,50 @@ export async function postJSON({
   overrideOptions = {},
   overrideHeaders = {},
 }) {
-  const searchParams = new URLSearchParams([
-    ["_data", "routes/[_content].refresh-content"],
-  ]);
-
-  const defaultOptions = {
-    hostname: process.env.FLY_APP_NAME + ".fly.dev",
-    port: 443,
-    path: `/_content/refresh-content?${searchParams}`,
-    method: "POST",
-    headers: {
-      auth: process.env.REFRESH_TOKEN,
-      "Content-Type": "application/json",
-      ...overrideHeaders,
-    },
-  };
-
-  // 개발 환경의 overrideOptions 적용
-  if (overrideOptions.hostname && overrideOptions.port) {
-    defaultOptions.hostname = overrideOptions.hostname;
-    defaultOptions.port = overrideOptions.port;
-    defaultOptions.path = overrideOptions.path;
-  }
-  console.log(`Requesting: ${defaultOptions.hostname}${defaultOptions.path}`);
-
   return new Promise((resolve, reject) => {
-    const req = https.request(defaultOptions, (res) => {
-      let data = "";
-      res.on("data", (chunk) => {
-        data += chunk;
-      });
-      res.on("end", () => {
-        if (res.statusCode === 200) {
+    const postDataString = JSON.stringify(postData);
+    const searchParams = new URLSearchParams([
+      ["_data", "routes/_content/refresh-content"],
+    ]);
+    const options = {
+      hostname: `${process.env.FLY_APP_NAME}.fly.dev`,
+      port: 443,
+      path: `/_content/refresh-content?${searchParams}`,
+      method: "POST",
+      headers: {
+        auth: process.env.REFRESH_TOKEN,
+        "content-type": "application/json",
+        "content-length": Buffer.byteLength(postDataString),
+        ...overrideHeaders,
+      },
+      ...overrideOptions,
+    };
+    try {
+      const req = https.request(options, (res) => {
+        let data = "";
+
+        res.on("data", (chunk) => {
+          data += chunk;
+        });
+        res.on("end", () => {
           try {
             resolve(JSON.parse(data));
-          } catch (error) {
-            reject(error);
+          } catch (err) {
+            console.error("Error!", err.message);
+            reject(data);
           }
-        } else {
-          reject(new Error(`HTTP error! status: ${res.statusCode}`));
-        }
+        });
+        res.on("error", (err) => {
+          console.error("Error!", err.message);
+          reject(err);
+        });
       });
-    });
-    req.on("error", (error) => {
-      reject(error);
-    });
-    req.write(JSON.stringify(postData));
-    req.end();
+      req.write(postDataString);
+      req.end();
+    } catch (e) {
+      console.error("Error!", e.message);
+      reject(e);
+    }
   });
 }
 
