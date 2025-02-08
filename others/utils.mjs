@@ -1,15 +1,27 @@
-// const execSync = require("child_process").execSync;
-import { execSync } from "child_process";
-import axios from "axios";
-
 export async function fetchJSON({ url }) {
-  try {
-    const response = await axios.get(url);
-    return response.data;
-  } catch (error) {
-    console.error("Error!", error.message);
-    throw error;
-  }
+  return new Promise((resolve, reject) => {
+    const req = http.request(url, { method: "GET" }, (res) => {
+      let data = "";
+      res.on("data", (chunk) => {
+        data += chunk;
+      });
+      res.on("end", () => {
+        if (res.statusCode === 200) {
+          try {
+            resolve(JSON.parse(data));
+          } catch (error) {
+            reject(error);
+          }
+        } else {
+          reject(new Error(`HTTP error! status: ${res.statusCode}`));
+        }
+      });
+    });
+    req.on("error", (error) => {
+      reject(error);
+    });
+    req.end();
+  });
 }
 
 export async function postJSON({
@@ -22,34 +34,49 @@ export async function postJSON({
   ]);
 
   const defaultOptions = {
-    baseURL: `https://${process.env.VITE_FLY_APP_NAME}.fly.dev`,
-    url: `/_content/refresh-content?${searchParams}`,
+    hostname: process.env.VITE_FLY_APP_NAME + ".fly.dev",
+    port: 443,
+    path: `/_content/refresh-content?${searchParams}`,
     method: "POST",
     headers: {
       auth: process.env.VITE_REFRESH_TOKEN,
       "Content-Type": "application/json",
       ...overrideHeaders,
     },
-    data: postData,
-    // ...overrideOptions, // 개발서버일 경우 baseURL, url 등이 override됨
   };
 
   // 개발 환경의 overrideOptions 적용
   if (overrideOptions.hostname && overrideOptions.port) {
-    defaultOptions.baseURL = `http://${overrideOptions.hostname}:${overrideOptions.port}`;
-    defaultOptions.url = overrideOptions.path;
+    defaultOptions.hostname = overrideOptions.hostname;
+    defaultOptions.port = overrideOptions.port;
+    defaultOptions.path = overrideOptions.path;
   }
-  console.log(`Requesting: ${defaultOptions.baseURL}${defaultOptions.url}`);
+  console.log(`Requesting: ${defaultOptions.hostname}${defaultOptions.path}`);
 
-  console.log(`in postJSON function searchParams : ${searchParams}`);
-
-  try {
-    const response = await axios(defaultOptions);
-    return response.data;
-  } catch (error) {
-    console.error("Error!", error.message);
-    throw error;
-  }
+  return new Promise((resolve, reject) => {
+    const req = http.request(defaultOptions, (res) => {
+      let data = "";
+      res.on("data", (chunk) => {
+        data += chunk;
+      });
+      res.on("end", () => {
+        if (res.statusCode === 200) {
+          try {
+            resolve(JSON.parse(data));
+          } catch (error) {
+            reject(error);
+          }
+        } else {
+          reject(new Error(`HTTP error! status: ${res.statusCode}`));
+        }
+      });
+    });
+    req.on("error", (error) => {
+      reject(error);
+    });
+    req.write(JSON.stringify(postData));
+    req.end();
+  });
 }
 
 export function getChangedFiles(sha, compareSha) {
@@ -76,5 +103,3 @@ export function getChangedFiles(sha, compareSha) {
     return null;
   }
 }
-
-// module.exports = { fetchJSON, getChangedFiles, postJSON };
