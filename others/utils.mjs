@@ -37,12 +37,12 @@ export async function postJSON({
   ]);
 
   const defaultOptions = {
-    hostname: process.env.VITE_FLY_APP_NAME + ".fly.dev",
+    hostname: process.env.FLY_APP_NAME + ".fly.dev",
     port: 443,
     path: `/_content/refresh-content?${searchParams}`,
     method: "POST",
     headers: {
-      auth: process.env.VITE_REFRESH_TOKEN,
+      auth: process.env.REFRESH_TOKEN,
       "Content-Type": "application/json",
       ...overrideHeaders,
     },

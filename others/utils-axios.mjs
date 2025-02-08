@@ -22,11 +22,11 @@ export async function postJSON({
   ]);
 
   const defaultOptions = {
-    baseURL: `https://${process.env.VITE_FLY_APP_NAME}.fly.dev`,
+    baseURL: `https://${process.env.FLY_APP_NAME}.fly.dev`,
     url: `/_content/refresh-content?${searchParams}`,
     method: "POST",
     headers: {
-      auth: process.env.VITE_REFRESH_TOKEN,
+      auth: process.env.REFRESH_TOKEN,
       "Content-Type": "application/json",
       ...overrideHeaders,
     },

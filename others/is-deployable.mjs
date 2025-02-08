@@ -2,7 +2,7 @@ import { fetchJSON, getChangedFiles } from "./utils.mjs";
 
 async function go() {
   const buildInfo = await fetchJSON({
-    url: `https://${process.env.VITE_FLY_APP_NAME}.fly.dev/build/info.json`,
+    url: `https://${process.env.FLY_APP_NAME}.fly.dev/build/info.json`,
   });
   const sha = buildInfo.data.sha;
   const compareSha = process.env.GITHUB_SHA;
