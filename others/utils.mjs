@@ -36,13 +36,13 @@ export async function postJSON({
 }) {
   return new Promise((resolve, reject) => {
     const postDataString = JSON.stringify(postData);
-    const searchParams = new URLSearchParams([
-      ["_data", "routes/_content/refresh-content"],
-    ]);
+    // const searchParams = new URLSearchParams([
+    //   ["_data", "routes/_content/refresh-content"],
+    // ]);
     const options = {
       hostname: `${process.env.FLY_APP_NAME}.fly.dev`,
-      // port: 443,
-      path: `/_content/refresh-content?${searchParams}`,
+      port: 443,
+      path: `/_content/refresh-content`,
       method: "POST",
       headers: {
         auth: process.env.REFRESH_TOKEN,
@@ -56,7 +56,6 @@ export async function postJSON({
     try {
       const req = https.request(options, (res) => {
         let data = "";
-        console.log("===========");
         res.on("data", (chunk) => {
           data += chunk;
         });
@@ -89,13 +88,13 @@ export async function postJSONasHttp({
 }) {
   return new Promise((resolve, reject) => {
     const postDataString = JSON.stringify(postData);
-    const searchParams = new URLSearchParams([
-      ["_data", "routes/_content/refresh-content"],
-    ]);
+    // const searchParams = new URLSearchParams([
+    //   ["_data", "routes/_content/refresh-content"],
+    // ]);
     const options = {
       hostname: `${process.env.FLY_APP_NAME}.fly.dev`,
       port: 443,
-      path: `/_content/refresh-content?${searchParams}`,
+      path: `/_content/refresh-content`,
       method: "POST",
       headers: {
         auth: process.env.REFRESH_TOKEN,
@@ -109,7 +108,6 @@ export async function postJSONasHttp({
     try {
       const req = http.request(options, (res) => {
         let data = "";
-        console.log("===========");
         res.on("data", (chunk) => {
           data += chunk;
         });

@@ -6,18 +6,18 @@ import type { GitHubFile } from "~/types";
 
 function getGHOwner() {
   // server side file must use nodejs env aka process.env
-  return process.env.VITE_GITHUB_REPOSITORY.split("/")[0];
+  return process.env.GITHUB_REPOSITORY?.split("/")[0];
 }
 
 function getGHRepository() {
   // server side file must use nodejs env aka process.env
-  return process.env.VITE_GITHUB_REPOSITORY.split("/")[1];
+  return process.env.VITE_GITHUB_REPOSITORY?.split("/")[1];
 }
 
 const MyOctokit = Octokit.plugin(throttling);
 
 const octokit = new MyOctokit({
-  auth: import.meta.env.VITE_GITHUB_TOKEN,
+  auth: process.env.GITHUB_REPOSITORY,
   throttle: {
     onRateLimit: (retryAfter, options) => {
       console.warn(

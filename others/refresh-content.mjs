@@ -1,8 +1,14 @@
 import { fetchJSON, getChangedFiles, postJSON } from "./utils.mjs";
 
 async function go() {
+  // console.log(
+  //   "아래 GITHUB_SHA는 docker에서 --build-arg에 자동으로 github actions에 의해 지정된다."
+  // );
   const compareSha = process.env.GITHUB_SHA;
 
+  // console.log(
+  //   "아래 FLY_APP_NAME는 docker에서 --build-arg에 자동으로 github actions에 의해 지정된다."
+  // );
   const shaInfo = await fetchJSON({
     url: `https://${process.env.FLY_APP_NAME}.fly.dev/_content/refresh-content.json`,
   });

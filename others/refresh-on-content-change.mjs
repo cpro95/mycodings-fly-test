@@ -24,9 +24,7 @@ watcher.on("ready", () => {
       overrideOptions: {
         hostname: "localhost",
         port: 5173,
-        path: `/_content/update-content?${new URLSearchParams([
-          ["_data", "routes/_content/update-content"],
-        ])}`,
+        path: `/_content/update-content`,
       },
     })
       .then(() => {

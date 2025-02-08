@@ -7,7 +7,7 @@ const { commitSession, getSession } = createCookieSessionStorage({
     sameSite: "lax",
     name: "mycodings_theme",
     httpOnly: true,
-    secrets: [import.meta.env.VITE_SESSION_SECRETS],
+    secrets: [process.env.SESSION_SECRETS as string],
     secure: process.env.NODE_ENV === "production",
   },
 });
