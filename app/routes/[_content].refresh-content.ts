@@ -11,8 +11,12 @@ export const action = async ({ request }: Route.ActionArgs) => {
   const queryParams = new URLSearchParams();
   queryParams.set("_data", "routes/_content/update-content");
 
+  const baseUrl = import.meta.env.DEV
+    ? "http://localhost:5173"
+    : `https://${import.meta.env.VITE_FLY_APP_NAME}.fly.dev`;
+
   const response = await fetch(
-    `http:localhost:5173/_content/update-content?${queryParams}`,
+    `${baseUrl}/_content/update-content?${queryParams}`,
     {
       method: "POST",
       body,

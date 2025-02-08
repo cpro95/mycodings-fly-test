@@ -1,24 +1,24 @@
-import { fetchJSON, getChangedFiles, postJSON } from "./utils.mjs";
+import { getChangedFiles, postJSON } from "./utils.mjs";
 
 async function go() {
   const compareSha = process.env.GITHUB_SHA;
 
-  const shaInfo = await fetchJSON({
-    url: `https://${process.env.FLY_APP_NAME}.fly.dev/_content/refresh-content.json`,
-  });
-  let sha = shaInfo?.sha;
+  // const shaInfo = await fetchJSON({
+  //   url: `https://${process.env.FLY_APP_NAME}.fly.dev/_content/refresh-content.json`,
+  // });
+  // let sha = shaInfo?.sha;
 
-  if (!sha) {
-    const buildInfo = await fetchJSON({
-      url: `https://${process.env.FLY_APP_NAME}.fly.dev/build/info.json`,
-    });
-    sha = buildInfo.data.sha;
-  }
+  // if (!sha) {
+  //   const buildInfo = await fetchJSON({
+  //     url: `https://${process.env.FLY_APP_NAME}.fly.dev/build/info.json`,
+  //   });
+  //   sha = buildInfo.data.sha;
+  // }
 
-  if (!sha) {
-    console.error("Not sure what to refresh 🤷🏻‍♂️");
-    return;
-  }
+  // if (!sha) {
+  //   console.error("Not sure what to refresh 🤷🏻‍♂️");
+  //   return;
+  // }
 
   const changedFiles = getChangedFiles(sha, compareSha) ?? [];
   const contentPaths = changedFiles
