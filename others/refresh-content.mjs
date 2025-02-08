@@ -1,42 +1,24 @@
-import { execSync } from "child_process";
 import { getChangedFiles, postJSON } from "./utils.mjs";
 
 async function go() {
   const compareSha = process.env.GITHUB_SHA;
 
-  // const shaInfo = await fetchJSON({
-  //   url: `https://${process.env.FLY_APP_NAME}.fly.dev/_content/refresh-content.json`,
-  // });
-  // let sha = shaInfo?.sha;
+  const shaInfo = await fetchJSON({
+    url: `https://${process.env.FLY_APP_NAME}.fly.dev/_content/refresh-content.json`,
+  });
+  let sha = shaInfo?.sha;
 
-  // if (!sha) {
-  //   const buildInfo = await fetchJSON({
-  //     url: `https://${process.env.FLY_APP_NAME}.fly.dev/build/info.json`,
-  //   });
-  //   sha = buildInfo.data.sha;
-  // }
-
-  // if (!sha) {
-  //   console.error("Not sure what to refresh 🤷🏻‍♂️");
-  //   return;
-  // }
-
-  // 현재 커밋의 바로 이전 커밋 SHA를 얻습니다.
-  let sha;
-  try {
-    sha = execSync(`git rev-parse ${compareSha}^`).toString().trim();
-  } catch (error) {
-    console.error("Error getting previous commit SHA:", error);
-    return;
+  if (!sha) {
+    const buildInfo = await fetchJSON({
+      url: `https://${process.env.FLY_APP_NAME}.fly.dev/build/info.json`,
+    });
+    sha = buildInfo.data.sha;
   }
 
   if (!sha) {
-    console.error("Unable to determine previous commit SHA");
+    console.error("Not sure what to refresh 🤷🏻‍♂️");
     return;
   }
-
-  console.log("Current SHA:", compareSha);
-  console.log("Previous SHA:", sha);
 
   const changedFiles = getChangedFiles(sha, compareSha) ?? [];
   const contentPaths = changedFiles

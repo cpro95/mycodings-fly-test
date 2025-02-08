@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "react-router build",
+    "build": "react-router build && node ./others/build-info.mjs",
     "dev": "run-p dev:*",
     "dev:router": "react-router dev",
     "dev:content": "node --require dotenv/config others/refresh-on-content-change.mjs",
