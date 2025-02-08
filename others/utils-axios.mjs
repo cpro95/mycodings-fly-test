@@ -36,7 +36,7 @@ export async function postJSON({
 
   // 개발 환경의 overrideOptions 적용
   if (overrideOptions.hostname && overrideOptions.port) {
-    defaultOptions.baseURL = `http://${overrideOptions.hostname}:${overrideOptions.port}`;
+    defaultOptions.baseURL = `https://${overrideOptions.hostname}:${overrideOptions.port}`;
     defaultOptions.url = overrideOptions.path;
   }
   console.log(`Requesting: ${defaultOptions.baseURL}${defaultOptions.url}`);

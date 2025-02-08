@@ -1,30 +1,30 @@
 import { execSync } from "child_process";
-import http from "http";
-import https from "https";
+import * as https from 'https';
 
 export async function fetchJSON({ url }) {
   return new Promise((resolve, reject) => {
-    const req = https.request(url, { method: "GET" }, (res) => {
-      let data = "";
-      res.on("data", (chunk) => {
-        data += chunk;
-      });
-      res.on("end", () => {
-        if (res.statusCode === 200) {
-          try {
-            resolve(JSON.parse(data));
-          } catch (error) {
+    try {
+      const req = https.get(url, (res) => {
+        let data = "";
+        res.on("data", (chunk) => (data += chunk));
+        res
+          .on("end", () => {
+            try {
+              resolve(JSON.parse(data));
+            } catch (e) {
+              reject(e);
+            }
+          })
+          .on("error", (error) => {
             reject(error);
-          }
-        } else {
-          reject(new Error(`HTTP error! status: ${res.statusCode}`));
-        }
+          });
       });
-    });
-    req.on("error", (error) => {
+      req.on("error", (error) => {
+        reject(error);
+      });
+    } catch (error) {
       reject(error);
-    });
-    req.end();
+    }
   });
 }
 
