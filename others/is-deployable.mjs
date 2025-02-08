@@ -1,4 +1,4 @@
-import { fetchJSON, getChangedFiles } from "./utils";
+import { fetchJSON, getChangedFiles } from "./utils.mjs";
 
 async function go() {
   const buildInfo = await fetchJSON({
