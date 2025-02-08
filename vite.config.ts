@@ -13,14 +13,14 @@ export default defineConfig({
   plugins: [
     reactRouter(),
     tsconfigPaths(),
-    {
-      name: "msw-plugin",
-      configureServer(server) {
-        import("./mocks").then(({ server: mswServer }) => {
-          mswServer.listen();
-          console.log("📡 MSW server started with Vite");
-        });
-      },
-    },
+    // {
+    //   name: "msw-plugin",
+    //   configureServer(server) {
+    //     import("./mocks").then(({ server: mswServer }) => {
+    //       mswServer.listen();
+    //       console.log("📡 MSW server started with Vite");
+    //     });
+    //   },
+    // },
   ],
 });
