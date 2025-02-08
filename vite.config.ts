@@ -10,5 +10,17 @@ export default defineConfig({
       plugins: [tailwindcss, autoprefixer],
     },
   },
-  plugins: [reactRouter(), tsconfigPaths()],
+  plugins: [
+    reactRouter(),
+    tsconfigPaths(),
+    {
+      name: "msw-plugin",
+      configureServer(server) {
+        import("./mocks/index.js").then(({ server: mswServer }) => {
+          mswServer.listen();
+          console.log("📡 MSW server started with Vite");
+        });
+      },
+    },
+  ],
 });
