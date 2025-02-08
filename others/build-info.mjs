@@ -11,6 +11,10 @@ const SHA = process.env.COMMIT_SHA;
 
 async function getCommitInfo() {
   try {
+    console.log(process.env.VITE_GITHUB_REPOSITORY);
+    console.log("sha is below");
+    console.log(SHA);
+    console.log("-=====-")
     const response = await fetch(
       `https://api.github.com/repos/${process.env.VITE_GITHUB_REPOSITORY}/commits/${SHA}`
     );
