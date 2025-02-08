@@ -4,13 +4,13 @@ async function go() {
   const compareSha = process.env.GITHUB_SHA;
 
   const shaInfo = await fetchJSON({
-    url: `https://${process.env.FLY_APP_NAME}.fly.dev/_content/refresh-content.json`,
+    url: `http://${process.env.FLY_APP_NAME}.fly.dev/_content/refresh-content.json`,
   });
   let sha = shaInfo?.sha;
 
   if (!sha) {
     const buildInfo = await fetchJSON({
-      url: `https://${process.env.FLY_APP_NAME}.fly.dev/build/info.json`,
+      url: `http://${process.env.FLY_APP_NAME}.fly.dev/build/info.json`,
     });
     sha = buildInfo.data.sha;
   }
