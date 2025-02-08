@@ -1,4 +1,4 @@
-import { getChangedFiles, postJSON } from "./utils.mjs";
+import { fetchJSON, getChangedFiles, postJSON } from "./utils.mjs";
 
 async function go() {
   const compareSha = process.env.GITHUB_SHA;

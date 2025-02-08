@@ -28,11 +28,3 @@ jobs:
         env:
           REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
           FLY_APP_NAME: ${{ secrets.FLY_APP_NAME }}
-
-  build:
-    name: 🌟 Print SHA info
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Print SHA
-        run: echo "The SHA of the commit is ${{ github.sha }}"
