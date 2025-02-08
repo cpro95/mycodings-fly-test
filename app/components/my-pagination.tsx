@@ -22,9 +22,7 @@ export default function MyPagination({
 
   // 라이프 섹션에 아무것도 없을 때 에러 처리
   if (total_pages === 0) total_pages = 1;
-  // console.log(q);
-  // console.log(page);
-  // console.log(itemsPerPage);
+  
   return (
     <nav
       aria-label="Pagination"
