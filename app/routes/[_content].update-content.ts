@@ -13,9 +13,9 @@ type Body = {
 
 export const action = async ({ request }: Route.ActionArgs) => {
   console.log(
-    `update-content : ${import.meta.env.VITE_REFRESH_TOKEN.slice(0, 5)}`
+    `update-content : ${process.env.REFRESH_TOKEN?.slice(0, 5)}`
   );
-  if (request.headers.get("auth") !== import.meta.env.VITE_REFRESH_TOKEN) {
+  if (request.headers.get("auth") !== process.env.REFRESH_TOKEN) {
     return data({ message: "Not Authorised" }, { status: 401 });
   }
 

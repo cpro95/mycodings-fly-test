@@ -18,7 +18,6 @@ async function getCommitInfo() {
       `https://api.github.com/repos/${process.env.GITHUB_REPOSITORY}/commits/${SHA}`
     );
     const data = await response.json();
-    console.log(data);
 
     return {
       author: data.commit.author.name,
