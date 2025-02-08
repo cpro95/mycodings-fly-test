@@ -1,3 +1,4 @@
+import { execSync } from "child_process";
 import { getChangedFiles, postJSON } from "./utils.mjs";
 
 async function go() {
@@ -19,6 +20,23 @@ async function go() {
   //   console.error("Not sure what to refresh 🤷🏻‍♂️");
   //   return;
   // }
+
+  // 현재 커밋의 바로 이전 커밋 SHA를 얻습니다.
+  let sha;
+  try {
+    sha = execSync(`git rev-parse ${compareSha}^`).toString().trim();
+  } catch (error) {
+    console.error("Error getting previous commit SHA:", error);
+    return;
+  }
+
+  if (!sha) {
+    console.error("Unable to determine previous commit SHA");
+    return;
+  }
+
+  console.log("Current SHA:", compareSha);
+  console.log("Previous SHA:", sha);
 
   const changedFiles = getChangedFiles(sha, compareSha) ?? [];
   const contentPaths = changedFiles
