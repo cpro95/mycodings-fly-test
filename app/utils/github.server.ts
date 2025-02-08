@@ -15,7 +15,7 @@ function getGHRepository() {
 const MyOctokit = Octokit.plugin(throttling);
 
 const octokit = new MyOctokit({
-  auth: import.meta.env.GITHUB_TOKEN,
+  auth: import.meta.env.VITE_GITHUB_TOKEN,
   throttle: {
     onRateLimit: (retryAfter, options) => {
       console.warn(
