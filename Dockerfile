@@ -2,7 +2,8 @@
 FROM node:20-alpine AS base
 
 # Install openssl for Prisma
-RUN apt-get update && apt-get install -y openssl
+# RUN apt-get update && apt-get install -y openssl
+RUN apk update && apk add openssl
 
 # Install all node_modules, including dev dependencies
 FROM base AS deps
@@ -28,8 +29,8 @@ FROM base as build
 
 ARG COMMIT_SHA
 ENV COMMIT_SHA=$COMMIT_SHA
-ARG GITHUB_REPOSITORY
-ENV GITHUB_REPOSITORY=$GITHUB_REPOSITORY
+ARG VITE_GITHUB_REPOSITORY
+ENV VITE_GITHUB_REPOSITORY=$VITE_GITHUB_REPOSITORY
 ENV NODE_ENV=production
 
 RUN mkdir /app
@@ -46,8 +47,8 @@ RUN npm run build
 # Finally, build the production image with minimal footprint
 FROM base
 
-ARG GITHUB_REPOSITORY
-ENV GITHUB_REPOSITORY=$GITHUB_REPOSITORY
+ARG VITE_GITHUB_REPOSITORY
+ENV VITE_GITHUB_REPOSITORY=$VITE_GITHUB_REPOSITORY
 ENV NODE_ENV=production
 
 RUN mkdir /app

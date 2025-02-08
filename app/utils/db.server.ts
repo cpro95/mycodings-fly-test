@@ -7,7 +7,7 @@ declare global {
 
 let client: PrismaClient;
 
-if (import.meta.env.MODE === "production") {
+if (process.env.NODE_ENV === "production") {
   client = new PrismaClient();
 } else {
   if (!global.client) {

@@ -1,9 +1,9 @@
 import { execSync } from "child_process";
-import https from "https";
+import http from "http";
 
 export async function fetchJSON({ url }) {
   return new Promise((resolve, reject) => {
-    const req = https.request(url, { method: "GET" }, (res) => {
+    const req = http.request(url, { method: "GET" }, (res) => {
       let data = "";
       res.on("data", (chunk) => {
         data += chunk;
@@ -57,7 +57,7 @@ export async function postJSON({
   console.log(`Requesting: ${defaultOptions.hostname}${defaultOptions.path}`);
 
   return new Promise((resolve, reject) => {
-    const req = https.request(defaultOptions, (res) => {
+    const req = http.request(defaultOptions, (res) => {
       let data = "";
       res.on("data", (chunk) => {
         data += chunk;

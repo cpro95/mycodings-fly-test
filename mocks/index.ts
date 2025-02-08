@@ -1,5 +1,5 @@
 import { setupServer } from "msw/node";
-import { GitHubMocks } from "./github.js";
+import { GitHubMocks } from "./github";
 
 export const server = setupServer(...GitHubMocks);
 

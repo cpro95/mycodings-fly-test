@@ -5,11 +5,13 @@ import { LRUCache } from "lru-cache";
 import type { GitHubFile } from "~/types";
 
 function getGHOwner() {
-  return import.meta.env.VITE_GITHUB_REPOSITORY.split("/")[0];
+  // server side file must use nodejs env aka process.env
+  return process.env.VITE_GITHUB_REPOSITORY.split("/")[0];
 }
 
 function getGHRepository() {
-  return import.meta.env.VITE_GITHUB_REPOSITORY.split("/")[1];
+  // server side file must use nodejs env aka process.env
+  return process.env.VITE_GITHUB_REPOSITORY.split("/")[1];
 }
 
 const MyOctokit = Octokit.plugin(throttling);

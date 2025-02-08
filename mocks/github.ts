@@ -2,14 +2,14 @@ import nodepath from "path";
 import fs from "fs-extra";
 import { http, HttpResponse } from "msw";
 
-async function isDirectory(d) {
+async function isDirectory(d: any) {
   try {
     return (await fs.lstat(d)).isDirectory();
   } catch {
     return false;
   }
 }
-async function isFile(d) {
+async function isFile(d: any) {
   try {
     return (await fs.lstat(d)).isFile();
   } catch {
@@ -156,7 +156,7 @@ export const GitHubMocks = [
         );
       }
 
-      const fullPath = path.resolve(process.cwd(), decodedPath);
+      const fullPath = nodepath.resolve(process.cwd(), decodedPath);
 
       if (!fs.existsSync(fullPath)) {
         return HttpResponse.json({ error: "File not found" }, { status: 404 });
