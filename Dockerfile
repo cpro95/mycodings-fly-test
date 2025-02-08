@@ -8,7 +8,6 @@ RUN apk update && apk add --no-cache openssl
 # Install all node_modules, including dev dependencies
 FROM base AS deps
 
-RUN mkdir /app
 WORKDIR /app
 
 COPY package.json package-lock.json ./
@@ -32,7 +31,6 @@ ARG GITHUB_REPOSITORY
 ENV GITHUB_REPOSITORY=$GITHUB_REPOSITORY
 ENV NODE_ENV=production
 
-RUN mkdir /app
 WORKDIR /app
 
 COPY --from=deps /app/node_modules /app/node_modules
@@ -50,13 +48,12 @@ ARG GITHUB_REPOSITORY
 ENV GITHUB_REPOSITORY=$GITHUB_REPOSITORY
 ENV NODE_ENV=production
 
-RUN mkdir /app
 WORKDIR /app
 
 COPY --from=production-deps /app/node_modules /app/node_modules
 COPY --from=build /app/node_modules/.prisma /app/node_modules/.prisma
 COPY --from=build /app/build /app/build
 COPY --from=build /app/public /app/public
-ADD . .
+COPY . .
 
 CMD ["npm", "run", "start"]

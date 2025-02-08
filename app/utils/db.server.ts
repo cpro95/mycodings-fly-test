@@ -7,6 +7,10 @@ declare global {
 
 let client: PrismaClient;
 
+console.log("in db.server.ts");
+console.log(process.env.NODE_ENV);
+console.log("-====================-");
+
 if (process.env.NODE_ENV === "production") {
   client = new PrismaClient();
 } else {

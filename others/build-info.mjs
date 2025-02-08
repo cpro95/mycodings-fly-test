@@ -38,6 +38,10 @@ async function run() {
     data: await getCommitInfo(),
   };
 
+  console.log("-==================");
+  console.log(data);
+  console.log("-==================");
+  
   // 현재 스크립트 파일의 위치를 기준으로 상대 경로 계산
   const filePath = path.resolve(__dirname, "../public/build/info.json");
 
