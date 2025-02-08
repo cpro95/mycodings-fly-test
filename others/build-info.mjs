@@ -41,7 +41,7 @@ async function run() {
   console.log("-==================");
   console.log(data);
   console.log("-==================");
-  
+
   // 현재 스크립트 파일의 위치를 기준으로 상대 경로 계산
   const filePath = path.resolve(__dirname, "../public/build/info.json");
 
@@ -55,6 +55,8 @@ async function run() {
     // 파일에 데이터 쓰기
     fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
     console.log(`Build info saved successfully to ${filePath}`);
+    const test = fs.readFileSync(filePath, "utf8");
+    console.log(test);
   } catch (error) {
     console.error("Error writing build info:", error);
   }
