@@ -254,3 +254,30 @@ async function populateMdx(contentDirectory: string) {
 ```
 
 먼저, dirList로 컨텐츠가 있는 폴더의 fileList를 가져온다.
+
+#### ./others/build-info.mjs
+
+이 파일은 build 할 때 실행하는 파일인데, 꼭 Github Actions에서 build 해야 한다.
+
+왜냐하면 Github 정보를 가져와서 public 폴더의 build 폴더를 만들고 그 밑에 info.json 파일을 아래와 같이 만들게 된다.
+
+```json
+{
+  "timestamp": 1739107026757,
+  "data": {
+    "author": "cpro95",
+    "timestamp": "2025-02-09T13:16:22Z",
+    "sha": "f743bfe5b71d4427107d4bb3ec01e3b7ba9f7276",
+    "message": "import fix in healthcheck.ts - client module in server module",
+    "url": "https://github.com/cpro95/mycodings-fly-test/commit/f743bfe5b71d4427107d4bb3ec01e3b7ba9f7276"
+  }
+}
+```
+
+즉, 현재 build 된 앱의 정보가 commit 정보와 함께 나오게 된다.
+
+이게 제일 중요한 게 build 정보가 위의 sha 정보값의 비교로부터 이루어진다.
+
+즉, sha 값에 따른 commit 한 두개의 stage의 변경된 파일을 검사해서 mdx 파일만 바뀌었으면 deploy를 안하고 다른게 바뀌었으면 새로 build 후 delpoy 하는 방식이다.
+
+
