@@ -110,21 +110,37 @@ export const GitHubMocks = [
 
       const fullPath = nodepath.resolve(process.cwd(), sha);
       console.log(fullPath);
-      const content = fs.readFileSync(fullPath, { encoding: "utf-8" });
-      console.log("==========content==========");
-      console.log(content);
-      console.log("==========content==========");
 
       const encoding = "base64";
 
-      return HttpResponse.json(
-        {
-          sha,
-          content: Buffer.from(content, "utf-8").toString(encoding),
-          encoding,
-        },
-        { status: 200 }
-      );
+      try {
+        if (!fs.existsSync(fullPath)) {
+          return HttpResponse.json(
+            { error: "File not found", sha },
+            { status: 404 }
+          );
+        }
+
+        const content = fs.readFileSync(fullPath, { encoding: "utf-8" });
+        console.log("==========content==========");
+        console.log(content);
+        console.log("==========content==========");
+
+        return HttpResponse.json(
+          {
+            sha,
+            content: Buffer.from(content, "utf-8").toString(encoding),
+            encoding,
+          },
+          { status: 200 }
+        );
+      } catch (error : any) {
+        console.error("Error reading file:", error);
+        return HttpResponse.json(
+          { error: "Internal Server Error", details: error.message },
+          { status: 500 }
+        );
+      }
     }
   ),
   http.get(
@@ -141,6 +157,54 @@ export const GitHubMocks = [
 
       console.log(
         `mock process 3 GITHUB_REPOSITORY: ${process.env.GITHUB_REPOSITORY}`
+      );
+
+      if (!process.env.GITHUB_REPOSITORY) {
+        throw new Error("GITHUB_REPOSITORY is not defined");
+      }
+
+      if (
+        `${owner}/${repo}` !== process.env.GITHUB_REPOSITORY ||
+        !decodedPath.startsWith("content")
+      ) {
+        throw new Error(
+          `Trying to fetch resource for unmockable resource: ${owner}/${repo}/${decodedPath}`
+        );
+      }
+
+      const fullPath = nodepath.resolve(process.cwd(), decodedPath);
+
+      if (!fs.existsSync(fullPath)) {
+        return HttpResponse.json({ error: "File not found" }, { status: 404 });
+      }
+
+      const content = fs.readFileSync(fullPath, { encoding: "utf-8" });
+      const encoding = "base64";
+
+      return HttpResponse.json(
+        {
+          sha: decodedPath,
+          content: Buffer.from(content, "utf-8").toString(encoding),
+          encoding,
+        },
+        { status: 200 }
+      );
+    }
+  ),
+  http.get(
+    "https://api.github.com/repos/:owner/:repo/git/blobs/*", // `*` 사용하여 전체 경로 매칭
+    async ({ request, params }) => {
+      const { owner, repo } = params;
+
+      // URL에서 직접 경로 추출 (params.path 대신 request.url 사용)
+      const url = new URL(request.url);
+      const encodedPath = url.pathname.split("/contents/")[1] || "";
+      const decodedPath = decodeURIComponent(encodedPath).trim();
+
+      console.log("Decoded Path:", decodedPath);
+
+      console.log(
+        `mock process 4 GITHUB_REPOSITORY: ${process.env.GITHUB_REPOSITORY}`
       );
 
       if (!process.env.GITHUB_REPOSITORY) {

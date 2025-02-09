@@ -51,6 +51,7 @@ async function compileMdxPages(pages: Awaited<ReturnType<typeof downloadMdx>>) {
       });
 
       if (!compiledPage) {
+        console.log(`Deleting: ${slug}`);
         await deleteContent(slug);
         return null;
       }
@@ -88,7 +89,6 @@ async function upsertContent(
 
 async function populateMdx(contentDirectory: string) {
   const filesList = await dirList(contentDirectory);
-  console.log(filesList);
   const pages = await downloadMdx(filesList, contentDirectory);
   const compiledPages = await compileMdxPages(pages);
   await upsertContent(compiledPages, contentDirectory);
@@ -136,6 +136,7 @@ export async function getMdxListItems({
     await populateMdx(contentDirectory);
   }
   if (pagesToUpdates && pagesToUpdates.length > 0) {
+    console.log(`pagesToUpdates && pagesToUpdates.length > 0`);
     await updateMdx(pagesToUpdates, contentDirectory);
   }
   return getContentList(contentDirectory, page, itemsPerPage);

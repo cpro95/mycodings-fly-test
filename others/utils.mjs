@@ -104,7 +104,7 @@ export async function postJSONasHttp({
       },
       ...overrideOptions,
     };
-    console.log(options);
+
     try {
       const req = http.request(options, (res) => {
         let data = "";

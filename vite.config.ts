@@ -4,23 +4,57 @@ import tailwindcss from "tailwindcss";
 import { defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
 
-export default defineConfig({
-  css: {
-    postcss: {
-      plugins: [tailwindcss, autoprefixer],
-    },
-  },
-  plugins: [
-    reactRouter(),
-    tsconfigPaths(),
-    // {
-    //   name: "msw-plugin",
-    //   configureServer(server) {
-    //     import("./mocks").then(({ server: mswServer }) => {
-    //       mswServer.listen();
-    //       console.log("📡 MSW server started with Vite");
-    //     });
-    //   },
-    // },
-  ],
+export default defineConfig(({ command }) => {
+  if (command === "serve") {
+    return {
+      css: {
+        postcss: {
+          plugins: [tailwindcss, autoprefixer],
+        },
+      },
+      plugins: [
+        reactRouter(),
+        tsconfigPaths(),
+        {
+          name: "msw-plugin",
+          configureServer(server) {
+            import("./mocks").then(({ server: mswServer }) => {
+              mswServer.listen();
+              console.log("📡 MSW server started with Vite");
+            });
+          },
+        },
+      ],
+    };
+  } else {
+    return {
+      css: {
+        postcss: {
+          plugins: [tailwindcss, autoprefixer],
+        },
+      },
+      plugins: [reactRouter(), tsconfigPaths()],
+    };
+  }
 });
+
+// export default defineConfig({
+//   css: {
+//     postcss: {
+//       plugins: [tailwindcss, autoprefixer],
+//     },
+//   },
+//   plugins: [
+//     reactRouter(),
+//     tsconfigPaths(),
+//     {
+//       name: "msw-plugin",
+//       configureServer(server) {
+//         import("./mocks").then(({ server: mswServer }) => {
+//           mswServer.listen();
+//           console.log("📡 MSW server started with Vite");
+//         });
+//       },
+//     },
+//   ],
+// });
