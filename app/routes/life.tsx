@@ -79,8 +79,7 @@ export const loader = async ({ request }: Route.LoaderArgs) => {
       Pool.set(k, Pool.has(k) ? Pool.get(k)! + 1 : 1)
     )
   );
-  // console.log(new Map([...Pool].sort()));
-
+  
   const sortedPool = new Map([...Pool].sort((a, b) => b[1] - a[1]));
   const bestPool = new Map([...sortedPool].filter((a) => a[1] > 2));
   const arrayOfBestPool: Array<string> = [...bestPool.keys()];

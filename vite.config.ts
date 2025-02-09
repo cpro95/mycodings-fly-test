@@ -3,10 +3,11 @@ import autoprefixer from "autoprefixer";
 import tailwindcss from "tailwindcss";
 import { defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
+import msw from "@iodigital/vite-plugin-msw";
+import { GitHubMocks } from "./mocks/github";
 
 export default defineConfig(({ command }) => {
   if (command !== "serve") {
-    console.log(`command : ${command}`);
     return {
       css: {
         postcss: {
@@ -25,37 +26,17 @@ export default defineConfig(({ command }) => {
       plugins: [
         reactRouter(),
         tsconfigPaths(),
-        {
-          name: "msw-plugin",
-          configureServer(server) {
-            import("./mocks/").then(({ server: mswServer }) => {
-              mswServer.listen();
-              console.log("📡 MSW server started with Vite");
-            });
-          },
-        },
+        msw({ mode: "node", handlers: GitHubMocks }),
+        // {
+        //   name: "msw-plugin",
+        //   configureServer(server) {
+        //     import("./mocks/").then(({ server: mswServer }) => {
+        //       mswServer.listen();
+        //       console.log("📡 MSW server started with Vite");
+        //     });
+        //   },
+        // },
       ],
     };
   }
 });
-
-// export default defineConfig({
-//   css: {
-//     postcss: {
-//       plugins: [tailwindcss, autoprefixer],
-//     },
-//   },
-//   plugins: [
-//     reactRouter(),
-//     tsconfigPaths(),
-//     {
-//       name: "msw-plugin",
-//       configureServer(server) {
-//         import("./mocks").then(({ server: mswServer }) => {
-//           mswServer.listen();
-//           console.log("📡 MSW server started with Vite");
-//         });
-//       },
-//     },
-//   ],
-// });

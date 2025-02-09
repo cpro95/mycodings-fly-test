@@ -85,7 +85,6 @@ export const links: Route.LinksFunction = () => [
 
 export const loader = async ({ params }: Route.LoaderArgs) => {
   const slug = params.slug;
-  console.log(`in loader, slug : ${slug}`);
   invariant(typeof slug === "string", "Slug should be a string, and defined");
 
   const mdxPage = await getMdxPage({ contentDirectory: "life", slug });
@@ -109,8 +108,6 @@ export const loader = async ({ params }: Route.LoaderArgs) => {
 
 export default function Blog({ loaderData }: Route.ComponentProps) {
   const { mdxPage, beforeAfterSlugList } = loaderData;
-  console.log(`in Blog.tsx, mdxPage : ${mdxPage})`);
-  console.log(beforeAfterSlugList);
   const { keywords = [] } = mdxPage.frontmatter.meta ?? {};
 
   const Component = React.useMemo(

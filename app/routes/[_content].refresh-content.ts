@@ -22,12 +22,6 @@ export const action = async ({ request }: Route.ActionArgs) => {
       ? "http://localhost:5173"
       : `https://${process.env.FLY_APP_NAME}.fly.dev`;
 
-  console.log("=================");
-  console.log("=================");
-  console.log(baseUrl);
-  console.log("=================");
-  console.log("=================");
-
   const response = await fetch(`${baseUrl}/_content/update-content`, {
     method: "POST",
     body,

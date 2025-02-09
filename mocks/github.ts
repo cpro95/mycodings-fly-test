@@ -28,7 +28,7 @@ export const GitHubMocks = [
       }
       const path = decodeURIComponent(params.path).trim();
 
-      console.log(`mock process1 ${process.env.GITHUB_REPOSITORY}`);
+      // console.log(`mock process1 ${process.env.GITHUB_REPOSITORY}`);
       if (
         `${owner}/${repo}` !== process.env.GITHUB_REPOSITORY ||
         !path.startsWith("content")
@@ -39,11 +39,8 @@ export const GitHubMocks = [
       }
 
       const localPath = nodepath.resolve(process.cwd(), path);
-      console.log(localPath);
       const isLocalDir = await isDirectory(localPath);
-      console.log(isLocalDir);
       const isLocalFile = await isFile(localPath);
-      console.log(isLocalFile);
 
       if (!isLocalDir && !isLocalFile) {
         // return an empty array when there are no blogs inside content/blogs
@@ -94,9 +91,7 @@ export const GitHubMocks = [
       }
       const sha = decodeURIComponent(params.sha).trim();
 
-      console.log(`mock process2 ${process.env.GITHUB_REPOSITORY}`);
-      console.log("mock process sha is");
-      console.log(sha);
+      // console.log(`mock process2 ${process.env.GITHUB_REPOSITORY}`);
 
       if (`${owner}/${repo}` !== process.env.GITHUB_REPOSITORY) {
         throw new Error(
@@ -109,7 +104,6 @@ export const GitHubMocks = [
       }
 
       const fullPath = nodepath.resolve(process.cwd(), sha);
-      console.log(fullPath);
 
       const encoding = "base64";
 
@@ -122,9 +116,6 @@ export const GitHubMocks = [
         }
 
         const content = fs.readFileSync(fullPath, { encoding: "utf-8" });
-        console.log("==========content==========");
-        console.log(content);
-        console.log("==========content==========");
 
         return HttpResponse.json(
           {
@@ -134,7 +125,7 @@ export const GitHubMocks = [
           },
           { status: 200 }
         );
-      } catch (error : any) {
+      } catch (error: any) {
         console.error("Error reading file:", error);
         return HttpResponse.json(
           { error: "Internal Server Error", details: error.message },
@@ -153,11 +144,9 @@ export const GitHubMocks = [
       const encodedPath = url.pathname.split("/contents/")[1] || "";
       const decodedPath = decodeURIComponent(encodedPath).trim();
 
-      console.log("Decoded Path:", decodedPath);
-
-      console.log(
-        `mock process 3 GITHUB_REPOSITORY: ${process.env.GITHUB_REPOSITORY}`
-      );
+      // console.log(
+      // `mock process 3 GITHUB_REPOSITORY: ${process.env.GITHUB_REPOSITORY}`
+      // );
 
       if (!process.env.GITHUB_REPOSITORY) {
         throw new Error("GITHUB_REPOSITORY is not defined");
@@ -198,14 +187,12 @@ export const GitHubMocks = [
 
       // URL에서 직접 경로 추출 (params.path 대신 request.url 사용)
       const url = new URL(request.url);
-      const encodedPath = url.pathname.split("/contents/")[1] || "";
+      const encodedPath = url.pathname.split("/blobs/")[1] || "";
       const decodedPath = decodeURIComponent(encodedPath).trim();
 
-      console.log("Decoded Path:", decodedPath);
-
-      console.log(
-        `mock process 4 GITHUB_REPOSITORY: ${process.env.GITHUB_REPOSITORY}`
-      );
+      // console.log(
+      //   `mock process 4 GITHUB_REPOSITORY: ${process.env.GITHUB_REPOSITORY}`
+      // );
 
       if (!process.env.GITHUB_REPOSITORY) {
         throw new Error("GITHUB_REPOSITORY is not defined");

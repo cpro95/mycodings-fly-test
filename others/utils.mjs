@@ -52,7 +52,7 @@ export async function postJSON({
       },
       ...overrideOptions,
     };
-    console.log(options);
+
     try {
       const req = https.request(options, (res) => {
         let data = "";

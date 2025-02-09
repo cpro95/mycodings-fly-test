@@ -51,7 +51,6 @@ async function compileMdxPages(pages: Awaited<ReturnType<typeof downloadMdx>>) {
       });
 
       if (!compiledPage) {
-        console.log(`Deleting: ${slug}`);
         await deleteContent(slug);
         return null;
       }
@@ -127,16 +126,11 @@ export async function getMdxListItems({
     getMdxCount(contentDirectory),
     requiresUpdate(contentDirectory),
   ]);
-  console.log("===================================");
-  console.log(`count: ${count}`);
-  console.dir(`pagesToUpdates : ${JSON.stringify(pagesToUpdates)}`);
-  console.log("===================================");
 
   if (count === 0) {
     await populateMdx(contentDirectory);
   }
   if (pagesToUpdates && pagesToUpdates.length > 0) {
-    console.log(`pagesToUpdates && pagesToUpdates.length > 0`);
     await updateMdx(pagesToUpdates, contentDirectory);
   }
   return getContentList(contentDirectory, page, itemsPerPage);

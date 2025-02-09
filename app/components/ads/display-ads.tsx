@@ -5,7 +5,6 @@ const DisplayAds = () => {
     const pushAd = () => {
       try {
         const adsbygoogle = window.adsbygoogle;
-        // console.log({ adsbygoogle })
         adsbygoogle.push({});
       } catch (e) {
         console.error(e);
