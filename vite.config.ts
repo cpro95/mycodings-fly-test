@@ -5,7 +5,8 @@ import { defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig(({ command }) => {
-  if (command === "build") {
+  if (command !== "serve") {
+    console.log(`command : ${command}`);
     return {
       css: {
         postcss: {

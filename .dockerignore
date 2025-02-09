@@ -8,9 +8,6 @@ public/build
 .env
 prisma/*.db
 
-content/
-mocks/
-
 app/styles
 app/**/*.ignore.*
 
