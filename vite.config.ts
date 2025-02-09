@@ -4,25 +4,22 @@ import tailwindcss from "tailwindcss";
 import { defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
 
-export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
-  console.log(process.env);
-  const isProduction = process.env.NODE_ENV === "production";
-  const resolvedCommand = process.env.npm_lifecycle_event || command;
-  console.log(`isProduction : ${isProduction}`);
-
-  console.log(`command : ${command}`);
-  console.log(`mode : ${mode}`);
-  console.log(`isSsrBuild : ${isSsrBuild}`);
-  console.log(`isPreview : ${isPreview}`);
-  if (command === "serve") {
+export default defineConfig(({ command }) => {
+  if (command === "build") {
     return {
       css: {
         postcss: {
           plugins: [tailwindcss, autoprefixer],
         },
       },
-      define: {
-        __COMMAND__: JSON.stringify(resolvedCommand),
+      plugins: [reactRouter(), tsconfigPaths()],
+    };
+  } else {
+    return {
+      css: {
+        postcss: {
+          plugins: [tailwindcss, autoprefixer],
+        },
       },
       plugins: [
         reactRouter(),
@@ -37,15 +34,6 @@ export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
           },
         },
       ],
-    };
-  } else {
-    return {
-      css: {
-        postcss: {
-          plugins: [tailwindcss, autoprefixer],
-        },
-      },
-      plugins: [reactRouter(), tsconfigPaths()],
     };
   }
 });
