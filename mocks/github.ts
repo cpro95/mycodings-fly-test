@@ -28,7 +28,7 @@ export const GitHubMocks = [
       }
       const path = decodeURIComponent(params.path).trim();
 
-      // console.log(`mock process1 ${process.env.GITHUB_REPOSITORY}`);
+      console.log(`mock process1 ${process.env.GITHUB_REPOSITORY}`);
       if (
         `${owner}/${repo}` !== process.env.GITHUB_REPOSITORY ||
         !path.startsWith("content")
@@ -91,7 +91,7 @@ export const GitHubMocks = [
       }
       const sha = decodeURIComponent(params.sha).trim();
 
-      // console.log(`mock process2 ${process.env.GITHUB_REPOSITORY}`);
+      console.log(`mock process2 ${process.env.GITHUB_REPOSITORY}`);
 
       if (`${owner}/${repo}` !== process.env.GITHUB_REPOSITORY) {
         throw new Error(
@@ -144,9 +144,9 @@ export const GitHubMocks = [
       const encodedPath = url.pathname.split("/contents/")[1] || "";
       const decodedPath = decodeURIComponent(encodedPath).trim();
 
-      // console.log(
-      // `mock process 3 GITHUB_REPOSITORY: ${process.env.GITHUB_REPOSITORY}`
-      // );
+      console.log(
+      `mock process 3 GITHUB_REPOSITORY: ${process.env.GITHUB_REPOSITORY}`
+      );
 
       if (!process.env.GITHUB_REPOSITORY) {
         throw new Error("GITHUB_REPOSITORY is not defined");
@@ -190,9 +190,9 @@ export const GitHubMocks = [
       const encodedPath = url.pathname.split("/blobs/")[1] || "";
       const decodedPath = decodeURIComponent(encodedPath).trim();
 
-      // console.log(
-      //   `mock process 4 GITHUB_REPOSITORY: ${process.env.GITHUB_REPOSITORY}`
-      // );
+      console.log(
+        `mock process 4 GITHUB_REPOSITORY: ${process.env.GITHUB_REPOSITORY}`
+      );
 
       if (!process.env.GITHUB_REPOSITORY) {
         throw new Error("GITHUB_REPOSITORY is not defined");

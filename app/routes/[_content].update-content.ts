@@ -46,7 +46,6 @@ export const action = async ({ request }: Route.ActionArgs) => {
   }
 
   if ("paths" in body && Array.isArray(body.paths)) {
-    console.log(`body paths : ${body.paths}`);
     const refreshPaths = [];
     for (const path of body.paths) {
       const [contentDirectory, dirOrFile] = path.split("/");
