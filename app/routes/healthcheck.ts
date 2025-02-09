@@ -1,6 +1,6 @@
 // learn more: https://fly.io/docs/reference/configuration/#services-http_checks
 import type { Route } from "./+types/healthcheck";
-import { getMdxListItems } from "~/utils/mdx.server";
+// import { getMdxListItems } from "~/utils/mdx.server";
 
 export const loader = async ({ request }: Route.LoaderArgs) => {
   const host =
