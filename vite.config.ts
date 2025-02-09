@@ -1,5 +1,6 @@
 import { reactRouter } from "@react-router/dev/vite";
 import autoprefixer from "autoprefixer";
+import path from "path";
 import tailwindcss from "tailwindcss";
 import { defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
@@ -12,13 +13,18 @@ export default defineConfig(({ command }) => {
           plugins: [tailwindcss, autoprefixer],
         },
       },
+      resolve: {
+        alias: {
+          "./mocks": path.resolve(__dirname, "./mocks"),
+        },
+      },
       plugins: [
         reactRouter(),
         tsconfigPaths(),
         {
           name: "msw-plugin",
           configureServer(server) {
-            import("./mocks").then(({ server: mswServer }) => {
+            import("./mocks/").then(({ server: mswServer }) => {
               mswServer.listen();
               console.log("📡 MSW server started with Vite");
             });

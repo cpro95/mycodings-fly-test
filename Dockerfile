@@ -39,7 +39,6 @@ COPY prisma .
 RUN npx prisma generate
 
 COPY . .
-ENV NODE_ENV=production
 RUN npm run build
 
 # Finally, build the production image with minimal footprint
