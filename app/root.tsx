@@ -12,8 +12,7 @@ import {
 
 import type { Route } from "./+types/root";
 import stylesheet from "./app.css?url";
-import { ExternalLink, HelpCircle } from "lucide-react";
-import { buttonVariants } from "./components/ui/button";
+import { HelpCircle } from "lucide-react";
 import Nav from "./components/nav";
 import Footer, { preloadFooterSvg } from "./components/footer";
 import { preloadSvg } from "./components/theme-toggle";
@@ -165,16 +164,13 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
         )}
       </div>
       <Link
+        rel="noopener noreferrer"
         to="/"
-        className={`${buttonVariants({
-          variant: "ghost",
-          size: "sm",
-        })} gap-2`}
+        className="rounded bg-blue-600 px-8 py-3 font-semibold text-gray-50"
       >
         <span className="text-sm font-medium text-primary/60 group-hover:text-primary">
           Return to Home
         </span>
-        <ExternalLink className="h-4 w-4 stroke-[1.5px] text-primary/60 group-hover:text-primary" />
       </Link>
     </main>
   );

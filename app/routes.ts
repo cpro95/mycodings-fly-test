@@ -17,4 +17,5 @@ export default [
   route("/blog/rss.xml", "routes/blog.rss[.]xml.ts"),
   route("/life/rss.xml", "routes/life.rss[.]xml.ts"),
   route("/healthcheck", "routes/healthcheck.ts"),
+  route("/*", "routes/catchall.tsx"),
 ] satisfies RouteConfig;
