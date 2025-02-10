@@ -83,7 +83,7 @@ export const links: Route.LinksFunction = () => [
   { rel: "stylesheet", href: styles },
 ];
 
-export const loader = async ({ params }: Route.LoaderArgs) => {
+export const loader = async ({ request, params }: Route.LoaderArgs) => {
   const slug = params.slug;
   invariant(typeof slug === "string", "Slug should be a string, and defined");
 

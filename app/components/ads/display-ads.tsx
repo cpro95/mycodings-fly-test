@@ -4,6 +4,7 @@ const DisplayAds = () => {
   useEffect(() => {
     const pushAd = () => {
       try {
+        // @ts-ignore
         const adsbygoogle = window.adsbygoogle;
         adsbygoogle.push({});
       } catch (e) {
@@ -13,6 +14,7 @@ const DisplayAds = () => {
 
     let interval = setInterval(() => {
       // Check if Adsense script is loaded every 300ms
+      // @ts-ignore
       if (window.adsbygoogle) {
         pushAd();
         // clear the interval once the ad is pushed so that function isn't called indefinitely

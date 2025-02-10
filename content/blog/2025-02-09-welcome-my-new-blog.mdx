@@ -17,4 +17,34 @@ This blog is made by
 
 Feel free to Contact to my Github Site!.
 
+Test for Coding!
+
+```js
+export default function Life({ loaderData }: Route.ComponentProps) {
+  const { blogList, blogCount, arrayOfBestPool, q, page } = loaderData;
+
+  const itemsPerPage = siteConfig.perPage;
+
+  return (
+    <section className="mx-auto max-w-4xl pt-8">
+      <BestTags bestTags={arrayOfBestPool} />
+      <SearchForm method="GET" action="." />
+
+      <div className="mt-2 max-w-lg">
+        {/* 인피드광고 */}
+        <InfeedAds />
+        {/* 인피드광고 */}
+      </div>
+
+      <BlogList blogList={blogList} contentDirectory="life" />
+      <MyPagination
+        q={q}
+        page={page}
+        total_pages={Math.ceil(Number(blogCount) / itemsPerPage)}
+      />
+    </section>
+  );
+}
+```
+
 Bye.

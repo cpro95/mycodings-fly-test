@@ -9,7 +9,7 @@ import {
 
 import MultiplexAds from "~/components/ads/multiplex-ads";
 import InfeedAds from "~/components/ads/infeed-ads";
-import { data, useSearchParams } from "react-router";
+import { data } from "react-router";
 import BestTags from "~/components/best-tags";
 import MyPagination from "~/components/my-pagination";
 import SearchForm from "~/components/search-form";
@@ -46,9 +46,9 @@ export function meta({}: Route.MetaArgs) {
 
 export const loader = async ({ request }: Route.LoaderArgs) => {
   const url = new URL(request.url);
-  let q = url.searchParams.get("q");
-  let page = Number(url.searchParams.get("page")) || 1;
-  let itemsPerPage = Number(url.searchParams.get("itemsPerPage")) || 10;
+  const q = url.searchParams.get("q");
+  const page = Number(url.searchParams.get("page")) || 1;
+  const itemsPerPage = siteConfig.perPage;
 
   let blogList;
   let blogCount;
@@ -85,7 +85,13 @@ export const loader = async ({ request }: Route.LoaderArgs) => {
   const arrayOfBestPool: Array<string> = [...bestPool.keys()];
 
   return data(
-    { blogList, blogCount, arrayOfBestPool: arrayOfBestPool.slice(0, 6) },
+    {
+      blogList,
+      blogCount,
+      arrayOfBestPool: arrayOfBestPool.slice(0, 6),
+      q,
+      page,
+    },
     {
       headers: { "cache-control": "private, max-age=60", Vary: "Cookie" },
     }
@@ -93,13 +99,8 @@ export const loader = async ({ request }: Route.LoaderArgs) => {
 };
 
 export default function Blog({ loaderData }: Route.ComponentProps) {
-  const [searchParams, setSearchParams] = useSearchParams();
-
-  const { blogList, blogCount, arrayOfBestPool } = loaderData;
-
-  let q = searchParams.get("q");
-  let page = Number(searchParams.get("page")) || 1;
-  let itemsPerPage = Number(searchParams.get("itemsPerPage")) || 10;
+  const { blogList, blogCount, arrayOfBestPool, q, page } = loaderData;
+  const itemsPerPage = siteConfig.perPage;
 
   return (
     <section className="mx-auto max-w-4xl pt-8">
@@ -116,7 +117,6 @@ export default function Blog({ loaderData }: Route.ComponentProps) {
       <MyPagination
         q={q}
         page={page}
-        itemsPerPage={itemsPerPage}
         total_pages={Math.ceil(Number(blogCount) / itemsPerPage)}
       />
       <div className="mx-auto max-w-4xl">
