@@ -1,11 +1,19 @@
-import GitHubSvg from "~/assets/icons/github.svg";
-import TwitterSvg from "~/assets/icons/twitter.svg";
 import LinkOrAnchor from "./link-or-anchor";
 
 export function preloadFooterSvg() {
   return [
-    { rel: "preload", href: GitHubSvg, as: "image", type: "image/svg+xml" },
-    { rel: "preload", href: TwitterSvg, as: "image", type: "image/svg+xml" },
+    {
+      rel: "preload",
+      href: "icons/github.svg",
+      as: "image",
+      type: "image/svg+xml",
+    },
+    {
+      rel: "preload",
+      href: "icons/twitter.svg",
+      as: "image",
+      type: "image/svg+xml",
+    },
   ];
 }
 
@@ -20,13 +28,13 @@ export default function Footer() {
           <ul className="flex items-center justify-center gap-6">
             <LinkOrAnchor href="https://github.com/cpro95">
               <Svg>
-                <use href={`${GitHubSvg}#icon-github`} />
+                <use href="/icons/github.svg#icon-github" />
               </Svg>
               <span className="sr-only">GitHub</span>
             </LinkOrAnchor>
             <LinkOrAnchor href="https://twitter.com/cpro95">
               <Svg>
-                <use href={`${TwitterSvg}#icon-twitter`} />
+                <use href="/icons/twitter.svg#icon-twitter" />
               </Svg>
               <span className="sr-only">Twitter</span>
             </LinkOrAnchor>
