@@ -1,6 +1,7 @@
 import MoonSvg from "~/assets/icons/moon.svg";
 import LightBulbSvg from "~/assets/icons/light-bulb.svg";
 import { Theme, useTheme } from "~/utils/theme";
+import { Moon, Sun } from "lucide-react";
 
 export function preloadSvg() {
   return [
@@ -8,6 +9,13 @@ export function preloadSvg() {
     { rel: "preload", href: LightBulbSvg, as: "image", type: "image/svg+xml" },
   ];
 }
+
+// export function preloadSvg() {
+//   return [
+//     { rel: "preload", href: Moon, as: "image", type: "image" },
+//     { rel: "preload", href: Sun, as: "image", type: "image" },
+//   ];
+// }
 
 export function SsrPlaceholder() {
   return <div className="h-8 w-8" />;

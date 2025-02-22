@@ -24,7 +24,7 @@ import * as gtag from "./utils/gtags.client";
 export const links: Route.LinksFunction = () => [
   { rel: "stylesheet", href: stylesheet },
   ...preloadSvg(),
-  ...preloadFooterSvg(),
+  // ...preloadFooterSvg(),
 ];
 
 export async function loader({ request }: Route.LoaderArgs) {

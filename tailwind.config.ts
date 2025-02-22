@@ -3,9 +3,8 @@ import type { Config } from "tailwindcss";
 const config = {
   darkMode: ["class"],
   content: ["./app/**/{**,.client,.server}/**/*.{js,jsx,ts,tsx}"],
-  theme: {
-    extend: {},
-  },
+  prefix: "",
+  theme: {},
   plugins: [require("@tailwindcss/typography")],
 } satisfies Config;
 

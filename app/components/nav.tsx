@@ -2,6 +2,7 @@ import { NavLink } from "react-router";
 import clsx from "clsx";
 import { ClientOnly } from "./client-only";
 import ThemeToggle, { SsrPlaceholder } from "./theme-toggle";
+import { Theme } from "~/utils/theme";
 
 export default function Nav() {
   return (
